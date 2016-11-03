@@ -12,7 +12,7 @@ public class SimpleClient {
 
 	public static void main(String[] args) {
 		String ipAddress;
-		int portNumber;
+		int portNumber=0;
 		Scanner scan = new Scanner(System.in);
 		System.out.println("Please enter the IP address (IPV4) that you want to connect to.");
 		ipAddress=scan.next();
@@ -20,10 +20,24 @@ public class SimpleClient {
 			System.out.println("DANGER WILL ROBINSON");
 			System.exit(1);
 		}else{
-			System.out.println("IPv4 Address validated");
-			System.exit(0);
+			System.out.println("IPv4 Address validated!");
+
 		}
-		
+		System.out.println("Please enter the port for communication");
+		try{
+			portNumber = Integer.parseInt(scan.next());
+		}catch(NumberFormatException n){
+			System.err.println("That, my friend, was not a valid number.");
+			System.exit(1);
+		}
+		if(!validPortNumber(portNumber)){
+			System.out.println("Wrong port of call");
+			System.exit(2);
+		}else{
+			System.out.println("TCP port validated!");
+			System.exit(0);
+			
+		}
 		portNumber=5555;
 		try (
 	            Socket echoSocket = new Socket(ipAddress, portNumber);
@@ -60,6 +74,10 @@ public class SimpleClient {
 		}
 		
 		return result;
+	}
+	
+	public static boolean validPortNumber(int port){
+		return port<=65535 && port>=0;
 	}
 
 }
