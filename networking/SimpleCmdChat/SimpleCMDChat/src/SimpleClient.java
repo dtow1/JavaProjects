@@ -59,6 +59,11 @@ public class SimpleClient {
 		            Thread sendThread = new Thread(send);
 		            sendThread.start();
 		            
+		            while(!read.getExit()){
+		            	//Do nothing, just keep the try block from exiting and closing the streams until the
+		            	//communication threads have ended.
+		            }
+		            
 		        /*    System.out.println("Please enter some text: ");
 		            while ((inputLine = in.readLine()) != null) {
 		                out.println("Inputline: " + inputLine);
@@ -136,6 +141,7 @@ class SendThread implements Runnable {
 class ReadThread implements Runnable {
 	
 	BufferedReader in;
+	boolean exit=false;
 	
     public void run() {
         String response="";
@@ -148,12 +154,18 @@ class ReadThread implements Runnable {
 				e.printStackTrace();
 			}
         	System.out.println("Response> " + response);
-        	if(response.equals("exit"));
+        	if(response.equals("exit")){
+        		exit=true;
+        	};
         }
     }
 
     ReadThread(BufferedReader in){
     	this.in = in;
+    }
+    
+    public boolean getExit(){
+    	return exit;
     }
 
 }
