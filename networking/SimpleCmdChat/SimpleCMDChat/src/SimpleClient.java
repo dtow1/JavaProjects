@@ -49,20 +49,29 @@ public class SimpleClient {
 	                new BufferedReader(
 	                    new InputStreamReader(System.in))
 	        ) {
-		            String inputLine,response;
+		            //String inputLine,response;
+		            
+		            ReadThread read = new ReadThread(in);
+		            SendThread send = new SendThread(out,stdIn);
+		            
+		            Thread readThread = new Thread(read);
+		            readThread.start();
+		            Thread sendThread = new Thread(send);
+		            sendThread.start();
+		            
 		        /*    System.out.println("Please enter some text: ");
 		            while ((inputLine = in.readLine()) != null) {
 		                out.println("Inputline: " + inputLine);
 		            }*/
 		            
-		            while(!exit){
+		       /*     while(!exit){
 		            	inputLine = stdIn.readLine();
 		            	System.out.println("Message> " + inputLine);
 		            	out.println(inputLine);
 		            	response = in.readLine();
 		            	System.out.println("Response> " + response);
 		            	if(response.equals("exit"));
-		            }
+		            }*/
 /*        	System.out.println("Enter Text: ");
             String userInput;
             while ((userInput = stdIn.readLine()) != null) {
@@ -94,5 +103,57 @@ public class SimpleClient {
 	public static boolean validPortNumber(int port){
 		return port<=65535 && port>=0;
 	}
+	
+
+}
+
+class SendThread implements Runnable {
+	
+	PrintWriter out;
+	BufferedReader stdIn;
+	
+    public void run() {
+        String inputLine="";
+        while(!inputLine.equals("exit")){
+        	try {
+				inputLine = stdIn.readLine();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        	System.out.println("Message> " + inputLine);
+        	out.println(inputLine);
+        }
+    }
+
+    SendThread(PrintWriter out, BufferedReader stdIn){
+    	this.out = out;
+    	this.stdIn = stdIn;
+    }
+
+}
+
+class ReadThread implements Runnable {
+	
+	BufferedReader in;
+	
+    public void run() {
+        String response="";
+        
+        while(!response.equals("exit")){
+        	try {
+				response = in.readLine();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        	System.out.println("Response> " + response);
+        	if(response.equals("exit"));
+        }
+    }
+
+    ReadThread(BufferedReader in){
+    	this.in = in;
+    }
 
 }
