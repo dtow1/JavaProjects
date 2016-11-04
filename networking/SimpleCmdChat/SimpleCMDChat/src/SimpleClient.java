@@ -58,31 +58,15 @@ public class SimpleClient {
 		            readThread.start();
 		            Thread sendThread = new Thread(send);
 		            sendThread.start();
-		            
+		            int count=0;
 		            while(!read.getExit()){
 		            	//Do nothing, just keep the try block from exiting and closing the streams until the
 		            	//communication threads have ended.
 		            }
 		            
-		        /*    System.out.println("Please enter some text: ");
-		            while ((inputLine = in.readLine()) != null) {
-		                out.println("Inputline: " + inputLine);
-		            }*/
+		            System.out.println("Communication closed");
 		            
-		       /*     while(!exit){
-		            	inputLine = stdIn.readLine();
-		            	System.out.println("Message> " + inputLine);
-		            	out.println(inputLine);
-		            	response = in.readLine();
-		            	System.out.println("Response> " + response);
-		            	if(response.equals("exit"));
-		            }*/
-/*        	System.out.println("Enter Text: ");
-            String userInput;
-            while ((userInput = stdIn.readLine()) != null) {
-                out.println(userInput);
-                System.out.println("echo: " + in.readLine());
-            }*/
+
 		        } catch (IOException e) {
 		            System.out.println("Exception caught when trying to listen on port "
 		                + portNumber + " or listening for a connection");
@@ -128,6 +112,7 @@ class SendThread implements Runnable {
 			}
         	System.out.println("Message> " + inputLine);
         	out.println(inputLine);
+
         }
     }
 
