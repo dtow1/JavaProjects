@@ -13,6 +13,7 @@ public class SimpleClient {
 	public static void main(String[] args) {
 		String ipAddress;
 		int portNumber=0;
+		boolean exit = false;
 		Scanner scan = new Scanner(System.in);
 		System.out.println("Please enter the IP address (IPV4) that you want to connect to.");
 		ipAddress=scan.next();
@@ -35,10 +36,8 @@ public class SimpleClient {
 			System.exit(2);
 		}else{
 			System.out.println("TCP port validated!");
-			System.exit(0);
 			
 		}
-		portNumber=5555;
 		try (
 	            Socket echoSocket = new Socket(ipAddress, portNumber);
 	            PrintWriter out =
@@ -50,10 +49,26 @@ public class SimpleClient {
 	                new BufferedReader(
 	                    new InputStreamReader(System.in))
 	        ) {
-		            String inputLine;
+		            String inputLine,response;
+		        /*    System.out.println("Please enter some text: ");
 		            while ((inputLine = in.readLine()) != null) {
-		                out.println(inputLine);
+		                out.println("Inputline: " + inputLine);
+		            }*/
+		            
+		            while(!exit){
+		            	inputLine = stdIn.readLine();
+		            	System.out.println("Message> " + inputLine);
+		            	out.println(inputLine);
+		            	response = in.readLine();
+		            	System.out.println("Response> " + response);
+		            	if(response.equals("exit"));
 		            }
+/*        	System.out.println("Enter Text: ");
+            String userInput;
+            while ((userInput = stdIn.readLine()) != null) {
+                out.println(userInput);
+                System.out.println("echo: " + in.readLine());
+            }*/
 		        } catch (IOException e) {
 		            System.out.println("Exception caught when trying to listen on port "
 		                + portNumber + " or listening for a connection");
